@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/magicianzcardstockllc/asro/blob/main/spec/bundle_schema.json",
+  "title": "ASRO Bundle v1",
+  "description": "Attestation bundle for material AI system change events. ASRO v1.0 — March 2026.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "timestamp_utc",
+    "system_id",
+    "operator_id",
+    "event_class",
+    "state_fingerprint",
+    "change_summary",
+    "policy_version",
+    "previous_bundle_hash",
+    "bundle_hash",
+    "signature",
+    "integrity_assertion"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Globally unique identifier for this attestation record."
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp for when the event was logged (not export time)."
+    },
+    "system_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the affected model, service, or deployment instance."
+    },
+    "operator_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier for the responsible operator or authorized signing unit."
+    },
+    "event_class": {
+      "type": "string",
+      "enum": [
+        "MODEL_UPDATE",
+        "POLICY_UPDATE",
+        "SYSTEM_CONFIG_CHANGE",
+        "DEPLOYMENT_EVENT",
+        "ROUTING_CHANGE",
+        "DATA_REFRESH",
+        "BEHAVIORAL_TUNING",
+        "EMERGENCY_OVERRIDE",
+        "EVALUATION_RUN"
+      ],
+      "description": "Exactly one event class from the ASRO v1 taxonomy. Taxonomy is publicly versioned and formally amendable."
+    },
+    "state_fingerprint": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One-way cryptographic hash (SHA3-256 or BLAKE3) of relevant system state. MUST be derived from model or configuration state only. MUST NOT include logs, prompts, or user-derived artifacts."
+    },
+    "change_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "description": "Non-sensitive, non-reconstructive summary of the change. MUST NOT contain user data, prompt content, model weight descriptions, or policy threshold values."
+    },
+    "impact_metrics": {
+      "type": "object",
+      "description": "Optional aggregated behavioral deltas. If included, MUST be system-level only (not cohort or segment level) and aggregated over a minimum of 10,000 requests. If omitted, anomaly detection capability for misclassification is degraded and this limitation must be disclosed.",
+      "additionalProperties": true
+    },
+    "policy_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version reference for the relevant model, policy, or deployment state."
+    },
+    "previous_bundle_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hash of the prior valid bundle in sequence. Required for hash-chain continuity. First bundle in a chain uses a defined genesis value."
+    },
+    "bundle_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hash of the current bundle contents."
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Cryptographic signature from the authorized signing authority under a documented key-management policy."
+    },
+    "integrity_assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Structured operator attestation binding the operator to the ASRO v1 obligations. Must be independently signed. Must be retained as part of the canonical bundle record.",
+      "required": [
+        "operator_id",
+        "attestation_timestamp_utc",
+        "obligations_version",
+        "completeness_asserted",
+        "classification_asserted",
+        "timeliness_asserted",
+        "authorized_signer_asserted",
+        "assertion_signature"
+      ],
+      "properties": {
+        "operator_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Operator identifier, matching the bundle's operator_id field."
+        },
+        "attestation_timestamp_utc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp of when this assertion was signed."
+        },
+        "obligations_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reference to the published ASRO operator-obligations version in force at the time of signing (e.g., 'ASRO-obligations-v1.0')."
+        },
+        "completeness_asserted": {
+          "type": "boolean",
+          "description": "Operator affirms all qualifying events have been submitted."
+        },
+        "classification_asserted": {
+          "type": "boolean",
+          "description": "Operator affirms the event_class correctly reflects the nature of the change."
+        },
+        "timeliness_asserted": {
+          "type": "boolean",
+          "description": "Operator affirms the event was logged within the required submission window (1 hour for EMERGENCY_OVERRIDE; 24 hours for all other classes)."
+        },
+        "authorized_signer_asserted": {
+          "type": "boolean",
+          "description": "Operator affirms the signature was produced by an authorized signing authority under a documented key-management policy."
+        },
+        "assertion_signature": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Independent cryptographic signature over this integrity_assertion object. Must not rely solely on the enclosing bundle signature."
+        }
+      }
+    }
+  }
+}
