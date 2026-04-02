@@ -6,6 +6,8 @@ Status: Public v1 artifact stack for external review and institutional engagemen
 Contact: james@michigrid.org  
 Repository: https://github.com/magicianzcardstockllc/asro
 
+James Aull is the founder of Michigrid, a cooperative energy infrastructure platform in formation under Michigan law, developed through the same multi-system AI coordination process that produced ASRO.
+
 ---
 
 ## What ASRO Is
