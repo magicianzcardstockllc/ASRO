@@ -2,6 +2,7 @@
 
 **A Framework for Verifiable AI System Accountability**  
 Version 1.0 — March 2026  
+Status: Public v1 artifact stack for external review and institutional engagement
 Contact: james@michigrid.org  
 Repository: https://github.com/magicianzcardstockllc/asro
 
