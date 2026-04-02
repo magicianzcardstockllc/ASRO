@@ -101,7 +101,16 @@ As a proof of concept, four major AI systems were given identical prompts asking
 Open for academic, research, and standards-development use with attribution. Commercial adoption requires compliance with the ASRO v1 Specification.
 ## Provenance / Multi-System Record
 
-Full multi-system development record (all rounds, all memos):
+The ASRO development process is documented in two complementary layers:
 
-- Markdown (readable): /review-record/ASRO_Complete_Memo_Record.md
-- Document (formatted): /review-record/ASRO_Complete_Memo_Record.docx
+### Complete Memo Record (full provenance)  
+  The complete, unedited, chronological record of all multi-system memos across all rounds.  
+  This is the primary audit trail and evidentiary record.  
+  - Markdown (readable): /review-record/ASRO_Complete_Memo_Record.md  
+  - Document (formatted): /review-record/ASRO_Complete_Memo_Record.docx  
+
+### Multi-System Review Summary (synthesized findings) 
+  A structured summary of key findings, system contributions, and resolved decisions from the review process.  
+  This serves as a guided entry point for reviewers.  
+  - Markdown (readable): /review-record/ASRO_MultiSystem_Review_Summary.md  
+  - Document (formatted): /review-record/ASRO_MultiSystem_Review_Summary.docx
