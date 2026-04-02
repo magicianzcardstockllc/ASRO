@@ -54,8 +54,10 @@ The framework originated from a direct operational observation. As the operator 
     ASRO_Privacy_Legal_Memo_v1.docx — Word version
 
 /review-record
-    ASRO_MultiSystem_Review_Summary.md   — Four-round adversarial review by five AI systems
-    ASRO_MultiSystem_Review_Summary.docx — Word version
+  ASRO_Complete_Memo_Record.md         — Full unedited multi-system memo record (primary audit trail)
+  ASRO_Complete_Memo_Record.docx       — Formatted version of full record
+  ASRO_MultiSystem_Review_Summary.md   — Structured synthesis of findings and decisions
+  ASRO_MultiSystem_Review_Summary.docx — Formatted summary document
 
 /outreach
     AI_Now_Letter.md             — Phase 3 outreach: structural accountability frame
