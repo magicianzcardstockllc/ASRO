@@ -98,3 +98,9 @@ As a proof of concept, four major AI systems were given identical prompts asking
 ## License
 
 Open for academic, research, and standards-development use with attribution. Commercial adoption requires compliance with the ASRO v1 Specification.
+## Provenance / Multi-System Record
+
+Full multi-system development record (all rounds, all memos):
+
+- Markdown (readable): /review-record/ASRO_Complete_Memo_Record.md
+- Document (formatted): /review-record/ASRO_Complete_Memo_Record.docx
