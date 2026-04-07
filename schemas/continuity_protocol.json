@@ -1,0 +1,205 @@
+{
+  "_schema_info": {
+    "schema_version": "1.0",
+    "document_status": "ASRO v1.0 Release Candidate",
+    "part_of": "ASRO — Attestation and System Reliability Operator Evidence Framework",
+    "description": "Canonical continuity protocol for ASRO attestation chains. Defines chain rules, sequence requirements, heartbeat protocol, hash canonicalization, replay resistance, and missing interval policy.",
+    "cross_references": [
+      "/spec/MAS_v1.1_Unified.md",
+      "/schemas/controlled_vocab.json",
+      "/schemas/discrepancy_taxonomy.json"
+    ]
+  },
+
+  "chain_rules": {
+    "_description": "Mandatory rules for valid chain continuity. Violation of any rule degrades or breaks continuity.",
+    "sequence_rule": {
+      "description": "Sequence numbers must be strictly monotonically increasing.",
+      "formula": "sequence_no(n) == sequence_no(n-1) + 1",
+      "violation_class": "SEQUENCE_GAP or EVENT_COLLISION"
+    },
+    "hash_chaining_rule": {
+      "description": "Each event's previous_hash must exactly match the event_hash of the prior accepted event.",
+      "formula": "previous_hash(n) == event_hash(n-1)",
+      "violation_class": "BROKEN_CHAIN"
+    },
+    "first_event_rule": {
+      "description": "The first event in a new chain must have previous_hash set to a known genesis value or ASRO-registered chain anchor.",
+      "genesis_value": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+
+  "hash_canonicalization": {
+    "_description": "Rules for producing canonical hashes. All parties must use identical canonicalization to prevent false drift detection.",
+    "algorithm": "SHA-256",
+    "encoding": "hex lowercase",
+    "serialization": {
+      "format": "JSON",
+      "character_encoding": "UTF-8",
+      "key_ordering": "lexicographic ascending",
+      "excluded_fields": ["signature", "asro_signature", "device_signature"],
+      "timestamp_format": "ISO 8601 UTC — YYYY-MM-DDTHH:MM:SSZ",
+      "array_ordering": "preserve semantic order where required; sort controlled-vocabulary sets"
+    },
+    "pre_sign_hash_note": "event_hash is computed over the full normalized bundle payload EXCLUDING signature fields. Signature is then computed over the canonical bundle including the event_hash field."
+  },
+
+  "signing": {
+    "_description": "Signing algorithm requirements for ASRO attestation.",
+    "required_algorithm": "ed25519",
+    "key_registration": "All signing keys must be registered with ASRO before use. Key ID must appear in every signed bundle.",
+    "key_rotation": {
+      "procedure": "Key rotation requires a declared, signed state transition event attested by the outgoing signing identity before the new key becomes active. The ASRO registry must be updated with the new key before bundles signed with it are accepted.",
+      "grace_period_s": 300,
+      "revocation": "Revoked keys trigger signature_status: revoked_key on any subsequent bundle. Revocation status queryable by ASRO."
+    }
+  },
+
+  "heartbeat_protocol": {
+    "_description": "Heartbeat requirements for Host Meter Agents. Heartbeat proves liveness and chain continuity. Silence is a trust-relevant signal.",
+    "default_intervals": {
+      "high_risk_s": 15,
+      "standard_s": 60,
+      "low_connectivity_declared_s": 300
+    },
+    "compliance_class_declaration": "Operators must declare their compliance class and heartbeat interval in their ASRO registration. The declared interval must match the applicable class.",
+    "missed_heartbeat_handling": {
+      "1_miss": {
+        "classification": "S1 warning",
+        "trust_state": "warning"
+      },
+      "2_consecutive_misses": {
+        "classification": "S2 anomaly",
+        "trust_state": "degraded"
+      },
+      "3_or_more_with_observed_edge_activity": {
+        "classification": "S4 critical — HEARTBEAT_LOSS",
+        "trust_state": "under_review",
+        "note": "Edge activity during host silence is the critical trigger. Absence of edge activity keeps the condition at S2."
+      }
+    },
+    "grace_period": {
+      "description": "ASRO allows a grace period before escalating missed heartbeat. Grace period is 1x the declared heartbeat interval.",
+      "grace_formula": "SLA_missed if heartbeat not received within declared_interval * 2"
+    },
+    "silence_rule": "Silence is not a neutral state. An extended absence of heartbeats from an active deployment is itself a governance-relevant event."
+  },
+
+  "max_event_latency": {
+    "_description": "Rules for declared maximum event latency. Operators must declare and comply with these bounds.",
+    "declaration_required": true,
+    "field_name": "max_event_latency_ms",
+    "class_ceilings_ms": {
+      "high_risk": 15000,
+      "standard": 60000,
+      "low_connectivity_declared": 300000
+    },
+    "enforcement": {
+      "measurement_field": "oldest_unpublished_load_bearing_event_ms",
+      "violation_condition": "oldest_unpublished_load_bearing_event_ms > max_event_latency_ms during active operation",
+      "single_violation_class": "DRIP_FEED_LATENCY_VIOLATION",
+      "single_violation_severity": "S2",
+      "repeated_or_strategic_violation_severity": "S3 or S4",
+      "note": "Latency violations are self-reported via the oldest_unpublished field in heartbeat bundles. ASRO may also detect latency violations by comparing event timestamps to receive timestamps."
+    },
+    "drip_feed_note": "Declaring the maximum permitted ceiling (e.g., 300,000ms) while strategically delaying publication of governance-relevant events is the Drip Feed attack pattern. Repeated or strategic latency violations escalate beyond S2."
+  },
+
+  "continuity_states": {
+    "_description": "Classification of chain continuity at any given evaluation point.",
+    "valid": {
+      "condition": "sequence_no increments correctly; previous_hash matches; timestamp within skew tolerance; signature valid",
+      "trust_state": "compliant"
+    },
+    "gap_detected": {
+      "condition": "sequence number jump greater than 1; expected bundle missing",
+      "trust_state": "degraded or review_required depending on context"
+    },
+    "out_of_order": {
+      "condition": "event arrives with lower sequence number than last accepted",
+      "trust_state": "degraded"
+    },
+    "duplicate": {
+      "condition": "same sequence number and same event hash repeated",
+      "trust_state": "warning — S0 informational"
+    },
+    "collision": {
+      "condition": "same sequence number, different event hash",
+      "trust_state": "under_review — S4 critical"
+    },
+    "broken_chain": {
+      "condition": "previous_hash does not match prior accepted event_hash",
+      "trust_state": "under_review — S4 critical"
+    }
+  },
+
+  "timestamp_rules": {
+    "_description": "Rules for timestamp handling across the attestation stack.",
+    "format": "ISO 8601 UTC — YYYY-MM-DDTHH:MM:SSZ",
+    "producer_clock": "Timestamp is the producer's local clock at emission time, signed as emitted.",
+    "asro_receive_time": "ASRO records its own receive timestamp separately from the producer timestamp.",
+    "clock_skew_tolerance": {
+      "standard_seconds": 30,
+      "outside_tolerance_class": "CLOCK_ANOMALY",
+      "outside_tolerance_severity": "S1",
+      "note": "Clock anomaly does not automatically invalidate a bundle. It is advisory unless combined with other discrepancies."
+    }
+  },
+
+  "replay_resistance": {
+    "_description": "Mechanisms to prevent replay attacks.",
+    "monotonic_sequence": "Sequence numbers are monotonically increasing. ASRO rejects bundles with stale or previously used sequence numbers.",
+    "bounded_timestamp_validity": "Bundles with timestamps outside acceptable skew are flagged as CLOCK_ANOMALY. Bundles more than [operator_declared_latency * 2] old are rejected as stale.",
+    "event_hash_deduplication": "ASRO maintains a record of accepted event hashes. Duplicate event hashes from the same system_id are classified as DUPLICATE_EVENT or REPLAY_DETECTED depending on context.",
+    "nonce_optional": "Optional: deployments may include a nonce field in challenge-based exchanges for additional replay resistance."
+  },
+
+  "missing_interval_policy": {
+    "_description": "How ASRO handles gaps where expected events did not arrive.",
+    "host_side": {
+      "unresolved_gap": "ASRO marks gap_detected. Continuity unresolved until one of: missing event arrives and validates; operator files attested outage declaration; review closes as unexplained gap.",
+      "attested_outage": "A gap covered by a valid outage.declared event with correct cause_class and signed by the registered key is treated as a formal exception. The outage declaration must be filed before or concurrent with the silence — retroactive declarations are remedial, not continuity-preserving.",
+      "unexplained_gap": "A gap that is not explained by an outage declaration and is not resolved by a late-arriving event is classified as SEQUENCE_GAP and escalates to S3."
+    },
+    "edge_side": {
+      "local_chain_validity": "Edge chain remains locally valid even when host chain has gaps.",
+      "reconciliation_impact": "If host chain has a gap during a period when edge records show activity, reconciliation_status becomes mismatch_detected. If edge client is operating in metadata_only mode (per controlled_vocab.json visibility_classes), reconciliation_status may be insufficient_visibility."
+    }
+  },
+
+  "attested_outage_rules": {
+    "_description": "Formal rules for attested outage declarations. Outage is a formal exception, not a loophole.",
+    "required_fields": [
+      "start_timestamp",
+      "cause_class",
+      "expected_recovery_window",
+      "signing_identity"
+    ],
+    "cause_class_vocabulary": "See controlled_vocab.json outage_cause_classes",
+    "anti_abuse_rules": {
+      "no_retroactive_clean_continuity": "An outage declared after the silence begins is remedial, not continuity-preserving.",
+      "no_active_serving_during_outage": "If edge observers record user-side activity during a declared outage window, the outage declaration does not close the discrepancy. Activity during declared outage escalates to S4.",
+      "maintenance_activity_requires_separate_attestation": "Maintenance activity during a declared outage window requires a separately attested maintenance-class event with a value from the maintenance_activity_classes vocabulary."
+    }
+  },
+
+  "minimum_telemetry_floor": {
+    "_description": "The minimum set of event types that must be attested during any active session. A chain that attests only heartbeats while load-bearing events occur is non-compliant.",
+    "required_coverage": "All load-bearing event types that actually occur during operation must appear in the attested chain.",
+    "protected_event_types": [
+      "tool.requested",
+      "tool.allowed",
+      "tool.blocked",
+      "outbound.action",
+      "safe_mode.entered",
+      "safe_mode.exited",
+      "override.applied",
+      "policy.changed",
+      "tool_policy.changed",
+      "runtime.changed"
+    ],
+    "reclassification_prohibition": "Protected event types cannot be reclassified as non-load-bearing or omitted from the attestation stream. Reclassification is a SCHEMA_OMISSION discrepancy."
+  },
+
+  "trust_boundary_reminder": "This continuity protocol does not make host measurement independent by itself. It becomes a credible governance record only when combined with external anchoring of the signing key, edge witnessing, and ASRO reconciliation."
+}
