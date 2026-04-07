@@ -1,30 +1,18 @@
 # ASRO v1.0 Release Candidate
 ## Attestation and System Reliability Operator — AI Governance Evidence Framework
 
+**Status:** ASRO v1.0 Release Candidate — Framework Complete, Pending External Review and Adoption Pathways
+
 **Contact:** james@michigrid.org
-**Repository:** [https://github.com/magicianzcardstockllc/asro](https://github.com/magicianzcardstockllc/asro)
+**Repository:** https://github.com/magicianzcardstockllc/asro
+
+James Aull is the founder of Michigrid, a cooperative energy infrastructure platform in formation under Michigan law, developed through the same multi-system AI coordination process that produced ASRO.
 
 ---
 
 > **ASRO does not trust operators to report their own compliance — it makes compliance verifiable by the parties who depend on it.**
 
 > **Internal measurement is not independent oversight. Trust arises only when host measurement, edge witnessing, and ASRO reconciliation remain consistent over time.**
-
----
-
-ASRO is a cryptographic attestation framework for verifying AI deployment-state continuity. It makes governance claims independently checkable without requiring access to conversation content, model internals, or user data.
-
-*ASRO was developed by James Aull, founder of Michigrid, a cooperative energy infrastructure platform in formation under Michigan law, through the same multi-system AI coordination process that produced the framework itself.*
-
----
-
-## Why ASRO Exists
-
-Modern AI systems are non-deterministic and continuously updated. Retroactive auditing through replay is not viable: the same prompt at a different time or system state will not produce the same output. The only defensible verification point is the moment of change.
-
-This framework originated from a direct operational observation. As the operator of a community-facing AI chatbot, the author had full backend access — the ability to read logged conversations, identify patterns, and alter system behavior in ways users had no mechanism to detect. This is not a theoretical vulnerability. It is a structural feature of how AI systems are architected at every scale. The mechanism does not change with scale. Only the impact does.
-
-ASRO provides the maximum verifiability technically achievable in this environment: cryptographic proof that a qualifying change was classified, signed, chained, and recorded when it occurred.
 
 ---
 
@@ -68,41 +56,6 @@ ASRO is **not**:
 > **ASRO v1.0 passes final credibility review as an attestation-and-governance evidence framework, not as a safety certification system, legal compliance guarantor, or enforcement authority.**
 
 *Final Credibility Pass Report: `/governance/Credibility_Pass_Report_v1.0.md`*
-
----
-
-## How to Navigate
-
-Start with `/spec/MAS_v1.1_Unified.md` — the normative technical core. Everything else is derived from or cross-references the MAS.
-
-The `/schemas/` directory contains the machine-enforceable policy layer, including the discrepancy taxonomy and continuity protocol.
-
-The `/governance/` directory defines response procedures, escalation rules, and reviewer authority.
-
-The `/docs/` directory contains implementation guidance and public interface specifications.
-
-The `/compliance/` directory contains the operator self-audit checklist.
-
----
-
-## ASRO v1.0 — Layered Architecture
-
-ASRO is composed of five integrated layers:
-
-**1. Specification Layer**
-Defines the attestation bundle format, telemetry rules, and the Host/Edge/ASRO verification model. Normative authority for all other layers.
-
-**2. Schema Layer**
-Machine-enforceable controlled vocabularies, discrepancy taxonomy (S0–S4), and continuity protocol. The ground truth for automated verification.
-
-**3. Governance Layer**
-Response procedures, escalation rules, reviewer authority, and the threat classification framework ranked by governance significance.
-
-**4. Threat and Validation Layer**
-Adversarial model, named attack patterns (Shadow Tool, Midnight Swap, Drip Feed, Metadata Strip), and the final credibility certification.
-
-**5. Public Interface Layer**
-Trust Badge specification and machine-verifiable status signaling via signed Trust Status Records.
 
 ---
 
@@ -186,6 +139,8 @@ These limitations are stated prominently because honest scope is what makes this
 
 ## Document Index
 
+> **Note on file formats:** Markdown (`.md`) files are the canonical versions of all documents. DOCX files are distribution copies for email attachment and institutional submission. Where both exist, the markdown version is authoritative.
+
 ### Technical
 
 | Document | Path | Description |
@@ -218,6 +173,27 @@ These limitations are stated prominently because honest scope is what makes this
 | Discrepancy Taxonomy | `/schemas/discrepancy_taxonomy.json` | S0–S4 severity levels and class definitions |
 | Continuity Protocol | `/schemas/continuity_protocol.json` | Sequence, hash, and heartbeat rules |
 | Developer Sandbox | `/schemas/sandbox/` | **Non-production.** Testing schema only. Cannot be used for compliance claims. |
+
+### Case Studies
+
+| Document | Path | Description |
+|----------|------|-------------|
+| Intent Mismatch Detection v1.0 | `/docs/case-studies/ASRO_Case_Study_Intent_Mismatch_v1.0.md` | A real governance event mapped to the ASRO detection and classification framework — the same AI system that generated the failure subsequently used the framework to classify it |
+
+### Provenance and Review Record
+
+| Document | Path | Description |
+|----------|------|-------------|
+| Complete Memo Record | `/review-record/ASRO_Complete_Memo_Record.md` | Full unedited multi-system memo record across all development rounds |
+| Strategic Roadmap v1 | `/review-record/ASRO_Roadmap_v1.md` | Phase structure, placement record, institutional engagement path |
+| Multi-System Review Summary | `/review-record/ASRO_MultiSystem_Review_Summary.md` | Structured synthesis of findings and decisions from the review process |
+
+### Outreach
+
+| Document | Path | Description |
+|----------|------|-------------|
+| AI Now Letter | `/outreach/AI_Now_Letter.md` | Phase 3 outreach: structural accountability frame |
+| CSET Letter | `/outreach/CSET_Letter.md` | Phase 3 outreach: governance infrastructure frame |
 
 ---
 
