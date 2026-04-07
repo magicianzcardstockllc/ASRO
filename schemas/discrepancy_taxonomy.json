@@ -1,0 +1,288 @@
+{
+  "_schema_info": {
+    "schema_version": "1.0",
+    "document_status": "ASRO v1.0 Release Candidate",
+    "part_of": "ASRO — Attestation and System Reliability Operator Evidence Framework",
+    "description": "Canonical discrepancy taxonomy for ASRO attestation. Defines severity levels S0-S4, all discrepancy classes, default severities, and review triggers.",
+    "cross_references": [
+      "/spec/MAS_v1.1_Unified.md",
+      "/governance/Threat_Classification_Framework_v1.0.md",
+      "/governance/Governance_Response_Protocol_v1.0.md",
+      "/schemas/controlled_vocab.json"
+    ]
+  },
+
+  "severity_levels": {
+    "_description": "S0-S4 severity classification. Determines response requirements and review triggers.",
+    "S0": {
+      "label": "Informational",
+      "description": "Benign noise, diagnostics, harmless duplicates. Record only; no escalation required.",
+      "response_required": false,
+      "review_required": false,
+      "public_status_change": false
+    },
+    "S1": {
+      "label": "Advisory",
+      "description": "Minor anomaly. Monitor; operator may self-resolve.",
+      "response_required": false,
+      "review_required": false,
+      "public_status_change": false
+    },
+    "S2": {
+      "label": "Warning",
+      "description": "Anomaly requiring monitoring. Not yet escalating to formal review.",
+      "response_required": false,
+      "review_required": false,
+      "public_status_change": false
+    },
+    "S3": {
+      "label": "Review Required",
+      "description": "Trust-relevant anomaly. Requires external explanation within 72 hours.",
+      "response_required": true,
+      "response_window_hours": 72,
+      "review_required": true,
+      "reviewer_class": "partner_auditor",
+      "public_status_change": false,
+      "escalation_if_no_response": "S4"
+    },
+    "S4": {
+      "label": "Critical",
+      "description": "Governance deception scenario or critical trust failure. Response required within 24 hours (12 hours for ACTIVITY_DURING_SILENT_WINDOW).",
+      "response_required": true,
+      "response_window_hours": 24,
+      "review_required": true,
+      "reviewer_class": "asro_review_function",
+      "public_status_change": true,
+      "public_status_on_trigger": "under_review",
+      "escalation_if_no_response": "non_compliant"
+    }
+  },
+
+  "locked_severity_rules": {
+    "ACTIVITY_DURING_SILENT_WINDOW": {
+      "default_severity": "S4",
+      "response_window_hours": 12,
+      "downgrade_permitted": true,
+      "downgrade_condition": "Observed activity is explicitly non-load-bearing AND no protected action, tool use, or external action occurred during the window",
+      "downgrade_floor": "S3"
+    }
+  },
+
+  "discrepancy_classes": {
+    "_description": "All canonical discrepancy classes. Each class includes default severity, description, and governance category.",
+
+    "SEQUENCE_GAP": {
+      "default_severity": "S3",
+      "governance_category": "continuity",
+      "description": "Sequence number jump greater than 1. Expected bundle missing.",
+      "trigger": "sequence_no(n) > sequence_no(n-1) + 1"
+    },
+    "BROKEN_CHAIN": {
+      "default_severity": "S4",
+      "governance_category": "continuity",
+      "description": "previous_hash of current event does not match event_hash of prior accepted event.",
+      "trigger": "previous_hash(n) != event_hash(n-1)"
+    },
+    "DUPLICATE_EVENT": {
+      "default_severity": "S0",
+      "governance_category": "continuity",
+      "description": "Same sequence number and same event hash repeated.",
+      "trigger": "duplicate sequence_no AND duplicate event_hash"
+    },
+    "EVENT_COLLISION": {
+      "default_severity": "S4",
+      "governance_category": "continuity",
+      "description": "Same sequence number with different event hash. Two events claim the same chain position.",
+      "trigger": "same sequence_no, different event_hash"
+    },
+    "REPLAY_DETECTED": {
+      "default_severity": "S4",
+      "governance_category": "continuity",
+      "description": "Previously accepted bundle hash presented as a new current event.",
+      "trigger": "event_hash matches previously accepted bundle hash with different timestamp"
+    },
+    "CLOCK_ANOMALY": {
+      "default_severity": "S1",
+      "governance_category": "continuity",
+      "description": "Timestamp outside acceptable clock skew tolerance (±30 seconds standard). Not automatic invalidation.",
+      "trigger": "timestamp deviation > 30 seconds from ASRO receive time"
+    },
+
+    "HEARTBEAT_LOSS": {
+      "default_severity": "S2",
+      "governance_category": "availability",
+      "description": "Expected heartbeat not received within SLA + grace window.",
+      "trigger": "heartbeat not received within max_heartbeat_interval + grace_period",
+      "escalation_rules": {
+        "1_miss": "S1 warning",
+        "2_consecutive_misses": "S2 anomaly",
+        "3_or_more_with_observed_edge_activity": "S4"
+      }
+    },
+    "OUTAGE_UNDECLARED": {
+      "default_severity": "S3",
+      "governance_category": "availability",
+      "description": "Extended silence without an outage.declared event.",
+      "trigger": "silence exceeding 2x heartbeat SLA without outage.declared"
+    },
+    "OUTAGE_DECLARATION_LATE": {
+      "default_severity": "S2",
+      "governance_category": "availability",
+      "description": "outage.declared event filed after the silence window began. Treated as remedial, not continuity-preserving.",
+      "trigger": "outage.declared timestamp later than silence start"
+    },
+    "ACTIVITY_DURING_SILENT_WINDOW": {
+      "default_severity": "S4",
+      "governance_category": "availability",
+      "description": "Edge-observed user-side activity recorded during a period when the Host Meter Agent was silent.",
+      "trigger": "edge witness records activity during host silence window",
+      "special_rule": "defaults to S4; may downgrade to S3 only if activity is explicitly non-load-bearing and no protected action occurred",
+      "response_window_hours": 12
+    },
+
+    "POLICY_DRIFT_UNATTESTED": {
+      "default_severity": "S4",
+      "governance_category": "drift",
+      "description": "policy_hash changed in a bundle without a corresponding policy.changed event in the chain.",
+      "trigger": "policy_hash(n) != policy_hash(n-1) AND no policy.changed event"
+    },
+    "TOOL_POLICY_DRIFT_UNATTESTED": {
+      "default_severity": "S4",
+      "governance_category": "drift",
+      "description": "tool_policy_hash changed without a corresponding tool_policy.changed event.",
+      "trigger": "tool_policy_hash(n) != tool_policy_hash(n-1) AND no tool_policy.changed event"
+    },
+    "RUNTIME_DRIFT_UNATTESTED": {
+      "default_severity": "S4",
+      "governance_category": "drift",
+      "description": "runtime_hash changed without a corresponding runtime.changed event. The Midnight Swap attack pattern.",
+      "trigger": "runtime_hash(n) != runtime_hash(n-1) AND no runtime.changed event"
+    },
+    "MODE_TRANSITION_UNDECLARED": {
+      "default_severity": "S3",
+      "governance_category": "drift",
+      "description": "runtime_mode changed without a corresponding mode.transition event.",
+      "trigger": "runtime_mode(n) != runtime_mode(n-1) AND no mode.transition event"
+    },
+    "OVERRIDE_UNDECLARED": {
+      "default_severity": "S3",
+      "governance_category": "drift",
+      "description": "Behavioral change consistent with a human override present without an override.applied event.",
+      "trigger": "override-consistent behavior observed without override.applied in chain"
+    },
+
+    "UNDECLARED_EXTERNAL_ACTION": {
+      "default_severity": "S4",
+      "governance_category": "behavioral",
+      "description": "External action detected by edge observer without a corresponding outbound.action event in the host chain.",
+      "trigger": "edge detects outbound action; no outbound.action event in host chain"
+    },
+    "TOOL_ESCALATION_UNDECLARED": {
+      "default_severity": "S4",
+      "governance_category": "behavioral",
+      "description": "Tool invocation at a permission level not present in the declared tool_policy_hash.",
+      "trigger": "tool invoked with permissions exceeding declared tool_policy_hash"
+    },
+    "RESPONSE_STATE_MISMATCH": {
+      "default_severity": "S3",
+      "governance_category": "behavioral",
+      "description": "Edge-observed response inconsistent with declared policy or mode state.",
+      "trigger": "edge response hash inconsistent with declared runtime_mode or policy constraints"
+    },
+    "SAFE_MODE_MISMATCH": {
+      "default_severity": "S4",
+      "governance_category": "behavioral",
+      "description": "Response or action observed during a declared safe_mode period that is inconsistent with safe mode constraints.",
+      "trigger": "full-capability behavior observed while safe_mode.entered is in chain without safe_mode.exited"
+    },
+    "BLOCK_ACTION_MISMATCH": {
+      "default_severity": "S3",
+      "governance_category": "behavioral",
+      "description": "Action visible at edge despite tool.blocked event in host chain for the same tool in the same session.",
+      "trigger": "tool.blocked in host chain; tool result visible at edge"
+    },
+
+    "INSUFFICIENT_VISIBILITY": {
+      "default_severity": "S1",
+      "governance_category": "coverage",
+      "description": "Edge client operating in metadata_only mode. Full witness record unavailable. Not a violation in itself.",
+      "trigger": "visibility_class: metadata_only declared"
+    },
+    "METERING_COVERAGE_GAP": {
+      "default_severity": "S2",
+      "governance_category": "coverage",
+      "description": "Declared telemetry scope does not cover all load-bearing event types occurring in this deployment.",
+      "trigger": "load-bearing event type occurs but is not present in attested telemetry stream"
+    },
+    "SCHEMA_OMISSION": {
+      "default_severity": "S3",
+      "governance_category": "coverage",
+      "description": "Required field from the MAS v1.1 bundle schema is absent from a submitted bundle.",
+      "trigger": "required field missing from HAB, EWB, or heartbeat bundle"
+    },
+    "UNKNOWN_EVENT_TYPE": {
+      "default_severity": "S3",
+      "governance_category": "coverage",
+      "description": "event_type value not present in the registered controlled vocabulary.",
+      "trigger": "event_type not in controlled_vocab.json event_types.values"
+    },
+
+    "PARTNER_TRANSPARENCY_ABUSE": {
+      "default_severity": "S3",
+      "governance_category": "coverage",
+      "description": "System claims partner_auditable status while withholding minimum required fields from partner auditors.",
+      "trigger": "minimum partner-auditable field set withheld while partner_auditable status claimed"
+    },
+    "DRIP_FEED_LATENCY_VIOLATION": {
+      "default_severity": "S2",
+      "governance_category": "coverage",
+      "description": "oldest_unpublished_load_bearing_event_ms exceeds declared max_event_latency_ms during active operation.",
+      "trigger": "oldest_unpublished_load_bearing_event_ms > max_event_latency_ms",
+      "escalation_rules": {
+        "single_violation": "S2",
+        "repeated_or_strategic_violation": "S3 or S4"
+      }
+    }
+  },
+
+  "review_triggers": {
+    "_description": "Conditions that always trigger human review regardless of individual discrepancy severity. Split into class_based (canonical discrepancy class names defined in this schema) and conditional (modifier-qualified conditions that reference canonical classes or controlled vocabulary states).",
+    "class_based": [
+      "BROKEN_CHAIN",
+      "EVENT_COLLISION",
+      "ACTIVITY_DURING_SILENT_WINDOW",
+      "POLICY_DRIFT_UNATTESTED",
+      "TOOL_POLICY_DRIFT_UNATTESTED",
+      "RUNTIME_DRIFT_UNATTESTED",
+      "UNDECLARED_EXTERNAL_ACTION",
+      "TOOL_ESCALATION_UNDECLARED",
+      "SAFE_MODE_MISMATCH",
+      "HEARTBEAT_LOSS",
+      "OUTAGE_UNDECLARED",
+      "SCHEMA_OMISSION"
+    ],
+    "conditional": [
+      {
+        "condition": "HEARTBEAT_LOSS",
+        "modifier": "3 or more consecutive missed intervals with observed edge activity",
+        "severity_floor": "S4"
+      },
+      {
+        "condition": "OUTAGE_UNDECLARED",
+        "modifier": "overlapping with edge-observed user-side activity",
+        "severity_floor": "S4"
+      },
+      {
+        "condition": "signature_status",
+        "values": ["revoked_key", "unknown_key"],
+        "reference": "controlled_vocab.json signature_states",
+        "severity_floor": "S4"
+      },
+      {
+        "condition": "SCHEMA_OMISSION",
+        "modifier": "repeated pattern across multiple sessions",
+        "severity_floor": "S3"
+      }
+    ]
+  }
+}
