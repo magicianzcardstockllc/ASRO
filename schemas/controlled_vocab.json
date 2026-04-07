@@ -1,0 +1,235 @@
+{
+  "_schema_info": {
+    "schema_version": "1.0",
+    "document_status": "ASRO v1.0 Release Candidate",
+    "part_of": "ASRO — Attestation and System Reliability Operator Evidence Framework",
+    "description": "Canonical controlled vocabularies for all ASRO attestation bundle fields. All values in attestation bundles must come from these vocabularies. Unregistered values trigger UNKNOWN_EVENT_TYPE discrepancy.",
+    "cross_references": [
+      "/spec/MAS_v1.1_Unified.md",
+      "/schemas/discrepancy_taxonomy.json",
+      "/schemas/continuity_protocol.json"
+    ]
+  },
+
+  "event_types": {
+    "_description": "Load-bearing event types that must be attested. All events that occur during operation must use one of these values. Protected events cannot be reclassified as non-load-bearing.",
+    "_protected_classes": [
+      "tool.requested",
+      "tool.allowed",
+      "tool.blocked",
+      "outbound.action",
+      "safe_mode.entered",
+      "safe_mode.exited",
+      "override.applied",
+      "policy.changed",
+      "tool_policy.changed",
+      "runtime.changed"
+    ],
+    "_note": "Protected classes are the minimum telemetry floor per MAS v1.1 Section 4.3 and Section 13. These cannot be reclassified as non-load-bearing or omitted.",
+    "values": [
+      "config.load",
+      "policy.load",
+      "policy.changed",
+      "tool_policy.load",
+      "tool_policy.changed",
+      "session.start",
+      "tool.requested",
+      "tool.allowed",
+      "tool.blocked",
+      "refusal.issued",
+      "safe_mode.entered",
+      "safe_mode.exited",
+      "mode.transition",
+      "override.applied",
+      "outbound.action",
+      "response.sent",
+      "config.changed",
+      "runtime.changed",
+      "heartbeat",
+      "outage.declared",
+      "sequence.gap"
+    ]
+  },
+
+  "runtime_modes": {
+    "_description": "Declared operational modes for the AI runtime.",
+    "values": [
+      "standard",
+      "restricted",
+      "safe_mode",
+      "read_only",
+      "maintenance",
+      "degraded",
+      "high_risk"
+    ]
+  },
+
+  "outage_cause_classes": {
+    "_description": "Controlled vocabulary for cause_class in outage.declared events. No other values are permitted. Per MAS v1.1 Section 14.",
+    "values": [
+      "SCHEDULED_MAINTENANCE",
+      "INFRASTRUCTURE_FAILURE",
+      "SECURITY_PATCH",
+      "EMERGENCY_REMEDIATION",
+      "CONNECTIVITY_LOSS"
+    ]
+  },
+
+  "reason_codes": {
+    "_description": "Reason codes for load-bearing events. Provide context for policy decisions and state transitions.",
+    "values": [
+      "POLICY_MATCH",
+      "POLICY_BLOCK",
+      "SAFE_MODE_TRIGGER",
+      "OVERRIDE_APPROVED",
+      "OUTAGE_DECLARED",
+      "HEARTBEAT_EMIT",
+      "SEQUENCE_RECOVERY",
+      "TOOL_PERMISSION_MATCH",
+      "TOOL_PERMISSION_BLOCK",
+      "CONFIG_VERSION_CHANGE",
+      "RUNTIME_VERSION_CHANGE",
+      "KEY_ROTATION",
+      "VOCABULARY_UPDATE"
+    ]
+  },
+
+  "attestation_status": {
+    "_description": "Trust status values for Trust Status Records and badge display. These are the only permitted status values.",
+    "values": {
+      "host_attested": {
+        "display_label": "Host Attestation Active",
+        "description": "Operator-side Host Meter Agent operational. Load-bearing events attested. No active S3 or S4 flags. No claim of edge reconciliation."
+      },
+      "reconciled_attested": {
+        "display_label": "Independent Verification Active",
+        "description": "Host attestation active AND meaningful edge observation is technically possible AND ASRO reconciliation active. No active S3 or S4 flags."
+      },
+      "under_review": {
+        "display_label": "Attestation Under Review",
+        "description": "Active S3 or S4 discrepancy. Trust status not clean. Operator response pending or under review."
+      },
+      "non_compliant": {
+        "display_label": "Attestation Not Current",
+        "description": "System cannot credibly claim current ASRO attestation compliance. External resolution required before status restored."
+      }
+    }
+  },
+
+  "continuity_states": {
+    "_description": "Chain continuity status values for ASRO reconciliation records. Note: collision (same sequence, different hash) is S4 critical and distinct from duplicate (same sequence, same hash) which is S0 informational.",
+    "values": [
+      "valid",
+      "gap_detected",
+      "out_of_order",
+      "duplicate",
+      "collision",
+      "broken_chain"
+    ]
+  },
+
+  "signature_states": {
+    "_description": "Signature validation status values.",
+    "values": [
+      "valid",
+      "invalid",
+      "unknown_key",
+      "revoked_key"
+    ]
+  },
+
+  "reconciliation_states": {
+    "_description": "ASRO reconciliation outcome values.",
+    "values": [
+      "match",
+      "mismatch_detected",
+      "insufficient_visibility",
+      "pending_review"
+    ]
+  },
+
+  "visibility_classes": {
+    "_description": "Edge Meter Agent visibility declaration values. metadata_only must be declared when response hash is unavailable. Absence of this declaration implies full witness capability is available.",
+    "values": [
+      "metadata_only"
+    ],
+    "_note": "If visibility_class is not declared, full edge witness capability is assumed. metadata_only is the only exception value requiring explicit declaration per MAS v1.1 Section 6.2."
+  },
+
+  "discrepancy_hints": {
+    "_description": "Edge-side discrepancy hint values for EWB optional fields.",
+    "values": [
+      "OUTBOUND_ACTION_VISIBLE_WITHOUT_DECLARED_EVENT",
+      "TOOL_VISIBLE_TOOL_DISABLED_DECLARED",
+      "RESPONSE_INCONSISTENT_WITH_DECLARED_MODE",
+      "POLICY_HASH_MISMATCH_OBSERVED",
+      "RUNTIME_HASH_MISMATCH_OBSERVED",
+      "TOOL_PERMISSION_EXPANSION_OBSERVED",
+      "SELECTIVE_PRIORITIZATION",
+      "METADATA_STRIP_DETECTED"
+    ]
+  },
+
+  "observed_state_flags": {
+    "_description": "Controlled vocabulary for EWB observed_state_flags array. These flags describe observable conditions at the edge.",
+    "values": [
+      "tool_visible",
+      "external_action_detected",
+      "safe_mode_inactive_while_declared",
+      "policy_change_visible",
+      "tool_permission_change_visible",
+      "attestation_headers_absent",
+      "response_during_declared_outage"
+    ]
+  },
+
+  "compliance_classes": {
+    "_description": "Deployment compliance class declarations. Determines applicable max_event_latency_ms ceiling.",
+    "values": {
+      "high_risk": {
+        "max_event_latency_ms_ceiling": 15000,
+        "heartbeat_sla_s": 15
+      },
+      "standard": {
+        "max_event_latency_ms_ceiling": 60000,
+        "heartbeat_sla_s": 60
+      },
+      "low_connectivity_declared": {
+        "max_event_latency_ms_ceiling": 300000,
+        "heartbeat_sla_s": 300
+      }
+    }
+  },
+
+  "maintenance_activity_classes": {
+    "_description": "Controlled vocabulary for maintenance-class activity during declared outage windows. MAS v1.1 Section 14 requires maintenance activity to use 'a value from the maintenance_activity_classes vocabulary' — this schema defines that vocabulary. Activity during a declared outage that does not use one of these values requires separate attested justification or escalates to review-triggering.",
+    "_distinct_from": "outage_cause_classes — cause_class describes WHY an outage occurred; maintenance_activity_class describes WHAT activity is being performed during it.",
+    "values": [
+      "ROUTINE_LOG_ROTATION",
+      "CERTIFICATE_RENEWAL",
+      "DEPENDENCY_UPDATE",
+      "BACKUP_OPERATION",
+      "HEALTH_CHECK",
+      "SCHEMA_MIGRATION",
+      "CONFIGURATION_REVIEW"
+    ]
+  },
+
+  "trust_status_reason_codes": {
+    "_description": "Reason codes for Trust Status Record status_reason_code field.",
+    "values": [
+      "ATTESTATION_ACTIVE",
+      "EDGE_RECONCILIATION_ACTIVE",
+      "S3_ALERT_ACTIVE",
+      "S4_ALERT_ACTIVE",
+      "ACTIVITY_DURING_SILENT_WINDOW",
+      "NON_COMPLIANT_DETERMINATION",
+      "KEY_REVOKED",
+      "CHAIN_BROKEN",
+      "HEARTBEAT_LOSS",
+      "REVIEW_RESOLVED",
+      "REVIEW_DEGRADED",
+      "RESTORATION_PENDING"
+    ]
+  }
+}
