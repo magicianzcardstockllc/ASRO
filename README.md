@@ -192,7 +192,7 @@ These limitations are stated prominently because honest scope is what makes this
 |----------|------|-------------|
 | Meter Agent Specification v1.1 | `/spec/MAS_v1.1_Unified.md` | Authoritative technical specification: telemetry, schemas, continuity, discrepancy taxonomy, trust model |
 | Technical Annex v1.0 | `/docs/Technical_Annex_v1.0.md` | Implementation architecture, data flow, deployment patterns |
-| Threat Model v1.0 | `/threat_model/Threat_Model_v1.0.md` | Attack surfaces, named attack patterns, mitigations |
+| Threat Model v1.0 | `/threat-model/Threat_Model_v1.0.md` | Attack surfaces, named attack patterns, mitigations |
 
 ### Governance
 
@@ -207,15 +207,8 @@ These limitations are stated prominently because honest scope is what makes this
 
 | Document | Path | Description |
 |----------|------|-------------|
-| Compliance Boundary Statement v1.0 | `/compliance/Compliance_Boundary_v1.0.md` | Canonical definition of what ASRO determines and does not determine — the evidence-not-adjudication boundary |
 | Implementation Readiness Checklist v1.0 | `/compliance/Implementation_Readiness_Checklist_v1.0.md` | 10-point operator self-audit before claiming ASRO compliance |
 | Trust Badge Specification v1.0 | `/docs/ASRO_Trust_Badge_Spec_v1.0.md` | Human-readable and machine-readable badge status rules |
-
-### Case Studies
-
-| Document | Path | Description |
-|----------|------|-------------|
-| Intent Mismatch Detection v1.0 | `/docs/case-studies/ASRO_Case_Study_Intent_Mismatch_v1.0.md` | Real governance event — detected, classified, and mapped to ASRO framework; includes operational proof of concept finding |
 
 ### Schemas
 
@@ -255,3 +248,9 @@ The following statements are locked across all ASRO v1.0 RC documents and must n
 
 **Canonical Certification Sentence**
 > ASRO v1.0 passes final credibility review as an attestation-and-governance evidence framework, not as a safety certification system, legal compliance guarantor, or enforcement authority.
+
+---
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details. This includes all documentation, schemas, and specification materials in this repository.
