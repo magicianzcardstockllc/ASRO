@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASRO — AI Systems Reliability Operator</title>
+  <meta name="description" content="ASRO is a cryptographic attestation framework for verifying AI deployment-state continuity. It makes governance claims independently checkable without requiring access to conversation content, model internals, or user data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d0f0e;
+      --paper: #f4f1eb;
+      --rule: #c8c3b8;
+      --accent: #1a3a2a;
+      --accent-light: #2d5c42;
+      --signal: #c84b1a;
+      --mono: 'DM Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+      --serif: 'Fraunces', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(244, 241, 235, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      padding: 0 2.5rem 5rem;
+      padding-top: 6rem;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 47px,
+        var(--rule) 47px,
+        var(--rule) 48px
+      );
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .hero-left {
+      padding-right: 4rem;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--signal);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 2.5rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--signal);
+    }
+
+    .hero-claim {
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 42ch;
+      color: var(--ink);
+      opacity: 0.85;
+      margin-bottom: 3rem;
+      border-left: 2px solid var(--accent);
+      padding-left: 1.25rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-light);
+    }
+
+    .btn-secondary {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid var(--rule);
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    .hero-right {
+      z-index: 1;
+      padding-left: 2rem;
+      border-left: 1px solid var(--rule);
+    }
+
+    .four-questions {
+      margin-bottom: 0;
+    }
+
+    .four-questions-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .question {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .question:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .question-num {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--signal);
+      opacity: 0.8;
+      padding-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .question-text {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--ink);
+      opacity: 0.8;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 2.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: inline-block;
+      flex: 1;
+      max-width: 3rem;
+      height: 1px;
+      background: var(--signal);
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    h3 {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink);
+      opacity: 0.82;
+      max-width: 68ch;
+      margin-bottom: 1.25rem;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* WHAT IS / IS NOT */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .not-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .not-list li {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink);
+      opacity: 0.75;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .not-list li::before {
+      content: '×';
+      font-family: var(--mono);
+      color: var(--signal);
+      opacity: 0.7;
+      font-size: 0.85rem;
+      padding-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ADVERSARIAL MODEL */
+    .adversarial-block {
+      background: var(--accent);
+      color: var(--paper);
+      padding: 4rem;
+      margin: 3rem 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .adversarial-block::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 23px,
+        rgba(244,241,235,0.06) 23px,
+        rgba(244,241,235,0.06) 24px
+      );
+      pointer-events: none;
+    }
+
+    .adversarial-block blockquote {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--paper);
+      max-width: 60ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .adversarial-block cite {
+      display: block;
+      font-family: var(--mono);
+      font-style: normal;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--paper);
+      opacity: 0.5;
+      margin-top: 2rem;
+    }
+
+    /* EVOLUTION */
+    .evolution-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+      border: 1px solid var(--rule);
+    }
+
+    .evolution-step {
+      padding: 2rem;
+      border-right: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .evolution-step:last-child { border-right: none; }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--ink);
+      opacity: 0.7;
+      max-width: 100%;
+    }
+
+    .step-docs {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .step-doc {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.35rem;
+      opacity: 0.8;
+    }
+
+    /* SCOPE */
+    .scope-note {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--ink);
+      opacity: 0.7;
+      padding: 1.5rem;
+      border: 1px solid var(--rule);
+      margin-top: 2rem;
+      max-width: 72ch;
+    }
+
+    .scope-note strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* REPO */
+    .repo-block {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .repo-url {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-top: 1.5rem;
+      display: block;
+      opacity: 0.8;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-item h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-item a {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .contact-item a:hover { opacity: 1; }
+
+    .contact-note {
+      font-size: 0.88rem;
+      color: var(--ink);
+      opacity: 0.6;
+      margin-top: 0.5rem;
+      max-width: 45ch;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-lock {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      opacity: 0.4;
+      max-width: 70ch;
+      line-height: 1.6;
+    }
+
+    .footer-mark {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      opacity: 0.4;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag, h1, .hero-claim, .hero-actions, .hero-right {
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-tag { animation-delay: 0.1s; }
+    h1 { animation-delay: 0.2s; }
+    .hero-claim { animation-delay: 0.3s; }
+    .hero-actions { animation-delay: 0.4s; }
+    .hero-right { animation-delay: 0.5s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 8rem; }
+      .hero-left { padding-right: 0; }
+      .hero-right { padding-left: 0; border-left: none; border-top: 1px solid var(--rule); padding-top: 2.5rem; margin-top: 3rem; }
+      .hero::before { width: 100%; }
+      .two-col { grid-template-columns: 1fr; gap: 3rem; }
+      .evolution-track { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .repo-block { grid-template-columns: 1fr; gap: 2rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .adversarial-block { padding: 2.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .evolution-track { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#top" class="nav-logo">ASRO</a>
+    <ul class="nav-links">
+      <li><a href="#what">Framework</a></li>
+      <li><a href="#adversarial">Adversarial Model</a></li>
+      <li><a href="#evolution">Evolution</a></li>
+      <li><a href="#repository">Repository</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-left">
+      <div class="hero-tag">AI Systems Reliability Operator</div>
+      <h1>Governance claims<br>made <em>independently</em><br>checkable.</h1>
+      <p class="hero-claim">ASRO does not trust operators to report their own compliance — it makes compliance verifiable by the parties who depend on it.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/magicianzcardstockllc/asro" class="btn-primary" target="_blank" rel="noopener">View Repository</a>
+        <a href="#what" class="btn-secondary">Read the Framework</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="four-questions">
+        <div class="four-questions-label">ASRO answers four questions</div>
+        <div class="question">
+          <span class="question-num">01</span>
+          <span class="question-text">Did the declared policy remain in force?</span>
+        </div>
+        <div class="question">
+          <span class="question-num">02</span>
+          <span class="question-text">Did tool permissions drift without declaration?</span>
+        </div>
+        <div class="question">
+          <span class="question-num">03</span>
+          <span class="question-text">Did runtime state change without a signed attestation event?</span>
+        </div>
+        <div class="question">
+          <span class="question-num">04</span>
+          <span class="question-text">Did the host's claimed governance state match what edge observers actually received?</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT ASRO IS / IS NOT -->
+  <section id="what">
+    <div class="section-inner">
+      <div class="section-label">Framework</div>
+      <div class="two-col">
+        <div>
+          <h2>What ASRO is</h2>
+          <p>ASRO is a cryptographic attestation framework for verifying AI deployment-state continuity. It makes governance claims independently checkable without requiring access to conversation content, model internals, or user data.</p>
+          <p>Modern AI systems are non-deterministic and continuously updated. The same prompt at a different time or system state will not produce the same output. The only defensible verification point is the moment of change. ASRO makes those changes independently checkable by the parties who depend on the system's governance claims.</p>
+          <p>ASRO is an evidence framework. It provides the technical record from which auditors, regulators, counsel, and partners can make their own determinations. It does not make those determinations itself.</p>
+          <div class="scope-note">
+            <strong>Scope statement:</strong> ASRO provides the technical record from which downstream parties can make legal, regulatory, and compliance determinations. Whether that evidence satisfies specific statutory requirements is a determination made by qualified counsel and regulators — not by ASRO.
+          </div>
+        </div>
+        <div>
+          <h2>What ASRO is not</h2>
+          <ul class="not-list">
+            <li>A safety certification system</li>
+            <li>A legal compliance guarantor</li>
+            <li>A regulator, court, or enforcement authority</li>
+            <li>A promise that the AI will never hallucinate or behave badly</li>
+            <li>A replacement for legal counsel or sectoral regulation</li>
+            <li>A claim about model output quality, accuracy, or harmlessness</li>
+          </ul>
+          <p style="margin-top: 1.5rem; font-size: 0.9rem;">These boundaries are stated prominently because honest scope is what makes this framework credible. Overstating what a governance framework can guarantee undermines the very trust it is designed to support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVERSARIAL MODEL -->
+  <section id="adversarial">
+    <div class="section-inner">
+      <div class="section-label">Adversarial Model</div>
+      <h2>The primary threat is not refusal.</h2>
+      <p>Most AI governance frameworks address systems that refuse to comply with stated policies. ASRO addresses a more structurally dangerous adversary: a system that complies selectively.</p>
+      <div class="adversarial-block">
+        <blockquote>
+          "The primary adversary in ASRO is not a system that refuses to attest, but a system that attests selectively enough to preserve plausible compliance while hiding governance-relevant change."
+        </blockquote>
+        <cite>— ASRO v1.0 Canonical Threat Sentence</cite>
+      </div>
+      <p style="margin-top: 2rem;">Selective attestation is not detectable through output-based validation. A system that produces correct-seeming outputs while silently altering its governance state cannot be audited by examining those outputs alone. Only continuous, cryptographically signed, independently witnessable attestation of the governance state — not the output — provides a defensible record.</p>
+      <p>Internal measurement is not independent oversight. Trust arises only when host measurement, edge witnessing, and ASRO reconciliation remain consistent over time.</p>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK EVOLUTION -->
+  <section id="evolution">
+    <div class="section-inner">
+      <div class="section-label">Framework Evolution</div>
+      <h2>From case-study diagnosis<br>to production protocol.</h2>
+      <p>The ASRO framework has been developed and tested through a structured series of case studies, production system profiles, and formal adversarial methods. Each layer extends the prior one.</p>
+      <div class="evolution-track">
+        <div class="evolution-step">
+          <div class="step-num">Layer 01</div>
+          <div class="step-title">Case-Study Diagnosis</div>
+          <div class="step-desc">Documented AI system behavior under recursive self-audit, cross-system comparison, live repository retrieval, and self-application — establishing the core failure taxonomy.</div>
+          <div class="step-docs">
+            <span class="step-doc">CS-001 through CS-010 — case-study and correction series</span>
+            <span class="step-doc">CS-007 — framework substitution in the wild</span>
+            <span class="step-doc">CS-008 — correctness ≠ attestation completeness</span>
+            <span class="step-doc">CS-010 — external behavioral correction</span>
+          </div>
+        </div>
+        <div class="evolution-step">
+          <div class="step-num">Layer 02</div>
+          <div class="step-title">Production System Profiling</div>
+          <div class="step-desc">Compared how real user-facing production systems behave under epistemic pressure in live consumer environments — role-bounded stability, override vulnerability, and recovery.</div>
+          <div class="step-docs">
+            <span class="step-doc">CS-011 — Rufus, Perplexity, PolyBuzz profiles</span>
+          </div>
+        </div>
+        <div class="evolution-step">
+          <div class="step-num">Layer 03</div>
+          <div class="step-title">Formal Adversarial Protocol</div>
+          <div class="step-desc">Formalized the correction logic into a reproducible adversarial method: four tracks, explicit pass/fail criteria, constraint precedence, and normative output examples.</div>
+          <div class="step-docs">
+            <span class="step-doc">CS-012 — Epistemic Challenge Protocol (ECP) v1.0</span>
+          </div>
+        </div>
+        <div class="evolution-step">
+          <div class="step-num">Layer 04</div>
+          <div class="step-title">Live Protocol Application</div>
+          <div class="step-desc">Applied the ECP to a real production artifact — a Perplexity story surface with a visible interface authority signal — demonstrating the method works outside synthetic conditions.</div>
+          <div class="step-docs">
+            <span class="step-doc">CS-012A — Perplexity live application</span>
+            <span class="step-doc">Branch-based testing introduced</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPOSITORY -->
+  <section id="repository">
+    <div class="section-inner">
+      <div class="section-label">Repository</div>
+      <div class="repo-block">
+        <div>
+          <h2>Open governance framework.</h2>
+          <p>The full ASRO v1.0 Release Candidate is publicly available on GitHub. The repository includes the normative technical specification, machine-enforceable schemas, governance and compliance documents, threat model, case studies, production profiles, and the Epistemic Challenge Protocol.</p>
+          <a href="https://github.com/magicianzcardstockllc/asro" class="repo-url" target="_blank" rel="noopener">github.com/magicianzcardstockllc/asro</a>
+          <p style="margin-top: 1.5rem; font-size: 0.88rem; opacity: 0.65;">Start with <code style="font-family: var(--mono); font-size: 0.82rem; background: rgba(0,0,0,0.06); padding: 0.1em 0.4em;">/spec/MAS_v1.1_Unified.md</code> — the normative technical core. Everything else is derived from or cross-references the MAS.</p>
+        </div>
+        <div>
+          <a href="https://github.com/magicianzcardstockllc/asro" class="btn-primary" target="_blank" rel="noopener" style="display: inline-block; white-space: nowrap;">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label">Contact</div>
+      <h2>Institutional inquiry<br>and collaboration.</h2>
+      <p>ASRO was developed by James Aull through a multi-system AI coordination process and is maintained as an open governance framework. Institutional inquiries, collaboration requests, and review correspondence are welcome.</p>
+      <div class="contact-grid" style="margin-top: 3rem;">
+        <div class="contact-item">
+          <h3>Primary Contact</h3>
+          <a href="mailto:james@aisystemsreliability.org">james@aisystemsreliability.org</a>
+          <p class="contact-note">For institutional inquiries, outreach, and collaboration regarding the ASRO framework.</p>
+        </div>
+        <div class="contact-item">
+          <h3>Repository</h3>
+          <a href="https://github.com/magicianzcardstockllc/asro" target="_blank" rel="noopener">github.com/magicianzcardstockllc/asro</a>
+          <p class="contact-note">Full specification, case studies, schemas, governance documents, and protocol methods.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-lock">
+      ASRO v1.0 Release Candidate. ASRO does not trust operators to report their own compliance — it makes compliance verifiable by the parties who depend on it. Internal measurement is not independent oversight. Trust arises only when host measurement, edge witnessing, and ASRO reconciliation remain consistent over time. ASRO is an evidence framework. It does not determine legal compliance, regulatory approval, safety, or liability.
+    </div>
+    <div class="footer-mark">© 2026 James Aull</div>
+  </footer>
+
+</body>
+</html>
