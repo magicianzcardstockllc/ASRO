@@ -79,9 +79,38 @@ The `/schemas/` directory contains the machine-enforceable policy layer, includi
 
 The `/governance/` directory defines response procedures, escalation rules, and reviewer authority.
 
-The `/docs/` directory contains implementation guidance and public interface specifications.
+The `/docs/` directory contains implementation guidance, public interface specifications, comparative production profiles, protocol specifications, and live protocol application records.
 
 The `/compliance/` directory contains the operator self-audit checklist.
+
+---
+
+## Recent Case Study and Method Evolution
+
+The ASRO case-study stack now extends beyond the original release-candidate series into comparative production profiling and formal adversarial method development.
+
+### Newest additions
+
+- `/docs/case-studies/ASRO_Case_Study_CS011_Production_Epistemic_Profiles_v1.0.md`
+  Comparative production profile covering Rufus, Perplexity, and PolyBuzz under live production conditions. This document bridges the earlier case-study series and the newer protocol layer.
+
+- `/docs/case-studies/ASRO_Case_Study_CS012_Epistemic_Challenge_Protocol_v1.0.md`
+  The Epistemic Challenge Protocol (ECP) v1.0. This is a protocol specification, not a case record. It formalizes four pressure tracks: authority injection, instruction conflict, epistemic override, and constraint bypass.
+
+- `/docs/case-studies/ASRO_Case_Study_CS012A_Perplexity_Live_Application_v1.0.md`
+  First live application of CS-012 against a real production artifact. Documents branch-based testing on a Perplexity story surface with visible interface authority signals.
+
+### How these fit together
+
+- **CS-007** — live repository retrieval integrity study; framework substitution in the wild
+- **CS-008** — correctness does not imply attestation completeness
+- **CS-009** — field activation series in undesigned operational contexts
+- **CS-010** — external behavioral correction through attestation pressure
+- **CS-011** — comparative production epistemic profiles
+- **CS-012** — formal adversarial test method (protocol specification)
+- **CS-012A** — first live production application of that method
+
+The ASRO series moves from case-study diagnosis, to production profiling, to repeatable adversarial protocol, to live protocol application.
 
 ---
 
@@ -209,6 +238,24 @@ These limitations are stated prominently because honest scope is what makes this
 |----------|------|-------------|
 | Implementation Readiness Checklist v1.0 | `/compliance/Implementation_Readiness_Checklist_v1.0.md` | 10-point operator self-audit before claiming ASRO compliance |
 | Trust Badge Specification v1.0 | `/docs/ASRO_Trust_Badge_Spec_v1.0.md` | Human-readable and machine-readable badge status rules |
+
+### Case Studies
+
+| Document | Path | Description |
+|----------|------|-------------|
+| Multi-System Review Summary v1.1 | `/docs/case-studies/ASRO_MultiSystem_Review_Summary_v1.1.md` | CS-001: Ten-system behavioral review — baseline dataset |
+| Recursive Self-Audit v1.1 | `/docs/case-studies/ASRO_Case_Study_CS002_Recursive_Self_Audit_v1.1.md` | CS-002: DeepSeek driven from S3 fabrication to S0 through iterative audit |
+| Differential Self-Audit v1.3 | `/docs/case-studies/ASRO_Case_Study_CS003_Differential_Self_Audit_v1.3.md` | CS-003: Cross-system differential audit — reasoning vs attestation vs evidence gaps |
+| Remediation Verification v1.1 | `/docs/case-studies/ASRO_Case_Study_CS004_Remediation_Verification_v1.1.md` | CS-004: Amendment verification across three systems |
+| Founding System Behavioral Study v1.3 | `/docs/case-studies/ASRO_Case_Study_CS005_Founding_System_Behavioral_Study_v1.3.md` | CS-005: Role recognition, attribution verification, identity continuity |
+| Multi-Condition Cross-System Study v1.1 | `/docs/case-studies/ASRO_Case_Study_CS006_v1.1.md` | CS-006: Framework substitution failure mode — ten systems, controlled conditions |
+| Live Repository Retrieval Integrity Study v1.0 | `/docs/case-studies/ASRO_Case_Study_CS007_Live_Repository_Retrieval_Integrity_Study_v1.0.md` | CS-007: Ten systems, one public URL — framework substitution in the wild |
+| Attestation Layer Failure Under Self-Application v1.1 | `/docs/case-studies/ASRO_Case_Study_CS008_Attestation_Layer_Failure_Under_Self_Application_v1.1.md` | CS-008: Correctness does not imply attestation completeness |
+| Field Activation Series v1.4 | `/docs/case-studies/ASRO_Case_Study_CS009_Field_Activation_Series_v1.4.md` | CS-009: Framework application in undesigned operational contexts — six instances, closed. Includes multi-agent epistemic protocol and full trust regress demonstration |
+| External Behavioral Correction v1.0 | `/docs/case-studies/ASRO_Case_Study_CS010_External_Behavioral_Correction_v1.0.md` | CS-010: Six stages from hallucinated certainty to epistemic stability — external correction through attestation pressure without internal access |
+| Production Epistemic Profiles v1.0 | `/docs/case-studies/ASRO_Case_Study_CS011_Production_Epistemic_Profiles_v1.0.md` | CS-011: Comparative production profiles — Rufus, Perplexity, PolyBuzz under live production conditions |
+| Epistemic Challenge Protocol v1.0 | `/docs/case-studies/ASRO_Case_Study_CS012_Epistemic_Challenge_Protocol_v1.0.md` | CS-012: Protocol specification — four-track adversarial method (authority injection, instruction conflict, epistemic override, constraint bypass) |
+| ECP Live Application — Perplexity v1.0 | `/docs/case-studies/ASRO_Case_Study_CS012A_Perplexity_Live_Application_v1.0.md` | CS-012A: First live ECP application on a real production artifact; branch-based testing; interface authority auditing |
 
 ### Schemas
 
