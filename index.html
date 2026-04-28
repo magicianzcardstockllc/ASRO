@@ -345,6 +345,31 @@
       flex-shrink: 0;
     }
 
+    .impact-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .impact-list li {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink);
+      opacity: 0.75;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .impact-list li::before {
+      content: '—';
+      font-family: var(--mono);
+      color: var(--signal);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
     /* ADVERSARIAL MODEL */
     .adversarial-block {
       background: var(--accent);
@@ -592,6 +617,7 @@
   <nav>
     <a href="#top" class="nav-logo">ASRO</a>
     <ul class="nav-links">
+      <li><a href="#problem">The Problem</a></li>
       <li><a href="#what">Framework</a></li>
       <li><a href="#adversarial">Adversarial Model</a></li>
       <li><a href="#evolution">Evolution</a></li>
@@ -604,31 +630,65 @@
   <section class="hero" id="top">
     <div class="hero-left">
       <div class="hero-tag">AI Systems Reliability Operator</div>
-      <h1>Governance claims<br>made <em>independently</em><br>checkable.</h1>
-      <p class="hero-claim">ASRO does not trust operators to report their own compliance — it makes compliance verifiable by the parties who depend on it.</p>
+      <h1>AI systems should not be the <em>only witness</em> to their own compliance.</h1>
+      <p class="hero-claim">Current AI oversight often depends on internal logs, self-reporting, and after-the-fact review — methods that cannot independently prove whether a system stayed within its declared governance over time. ASRO is the independent attestation layer that closes that gap.</p>
       <div class="hero-actions">
-        <a href="https://github.com/magicianzcardstockllc/asro" class="btn-primary" target="_blank" rel="noopener">View Repository</a>
-        <a href="#what" class="btn-secondary">Read the Framework</a>
+        <a href="#problem" class="btn-primary">See the Problem</a>
+        <a href="https://github.com/magicianzcardstockllc/asro" class="btn-secondary" target="_blank" rel="noopener">View Repository</a>
       </div>
     </div>
     <div class="hero-right">
       <div class="four-questions">
-        <div class="four-questions-label">ASRO answers four questions</div>
+        <div class="four-questions-label">The governance gap ASRO addresses</div>
         <div class="question">
           <span class="question-num">01</span>
-          <span class="question-text">Did the declared policy remain in force?</span>
+          <span class="question-text">An AI system's behavior can change after deployment — silently, without any independent external record.</span>
         </div>
         <div class="question">
           <span class="question-num">02</span>
-          <span class="question-text">Did tool permissions drift without declaration?</span>
+          <span class="question-text">Users, auditors, and regulators have no independent mechanism to verify whether declared governance stayed in force.</span>
         </div>
         <div class="question">
           <span class="question-num">03</span>
-          <span class="question-text">Did runtime state change without a signed attestation event?</span>
+          <span class="question-text">Output review and internal logs show what the system said — not whether it was operating under the rules it claimed.</span>
         </div>
         <div class="question">
           <span class="question-num">04</span>
-          <span class="question-text">Did the host's claimed governance state match what edge observers actually received?</span>
+          <span class="question-text">That gap affects trust, reliability, auditability, enterprise adoption, and liability exposure.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM SECTION -->
+  <section id="problem">
+    <div class="section-inner">
+      <div class="section-label">The Problem</div>
+      <div class="two-col">
+        <div>
+          <h2>The governance gap current tools do not fully close.</h2>
+          <p>When an AI system is deployed, the operator controls its configuration — the policies it follows, the tools it can access, the constraints it operates under. That configuration can change at any time, by the operator, without any signal to the user and without any external record of the change.</p>
+          <p>Current oversight methods — output review, internal logs, after-the-fact audits — show what the system said. They do not independently prove whether the system was operating under the governance rules it claimed to be operating under at the time it said it.</p>
+          <p>That distinction matters. A system can produce correct-seeming outputs while silently operating under a different set of rules than it declared. Output review cannot catch that. Internal logs controlled by the same operator cannot prove it. After-the-fact review of non-deterministic systems cannot reliably reconstruct it.</p>
+          <div class="adversarial-block" style="margin-top: 2rem;">
+            <blockquote style="font-size: clamp(1rem, 2vw, 1.35rem);">
+              "AI systems should not be the only witness to their own compliance."
+            </blockquote>
+          </div>
+        </div>
+        <div>
+          <h2>Why it matters.</h2>
+          <p style="font-weight: 500; opacity: 0.9;">For organizations deploying or evaluating AI:</p>
+          <ul class="impact-list" style="margin-bottom: 2rem;">
+            <li style="border-bottom: 1px solid var(--rule); padding: 0.9rem 0;">Trust claims about AI behavior cannot be independently verified without an external record</li>
+            <li style="border-bottom: 1px solid var(--rule); padding: 0.9rem 0;">Audit requirements that assume governance continuity have no mechanism to confirm it</li>
+            <li style="border-bottom: 1px solid var(--rule); padding: 0.9rem 0;">Enterprise adoption stalls when procurement cannot answer: "How do we know what the system is actually doing?"</li>
+            <li style="padding: 0.9rem 0;">Regulatory and liability exposure grows as AI systems make consequential decisions without verifiable governance trails</li>
+          </ul>
+          <p style="font-weight: 500; opacity: 0.9;">The core issue stated plainly:</p>
+          <div class="scope-note">
+            Current AI oversight methods are not always sufficient to determine whether a system is actually staying within its declared governance. ASRO is built specifically to address that gap.
+          </div>
         </div>
       </div>
     </div>
@@ -637,19 +697,19 @@
   <!-- WHAT ASRO IS / IS NOT -->
   <section id="what">
     <div class="section-inner">
-      <div class="section-label">Framework</div>
+      <div class="section-label">The Solution</div>
       <div class="two-col">
         <div>
-          <h2>What ASRO is</h2>
-          <p>ASRO is a cryptographic attestation framework for verifying AI deployment-state continuity. It makes governance claims independently checkable without requiring access to conversation content, model internals, or user data.</p>
-          <p>Modern AI systems are non-deterministic and continuously updated. The same prompt at a different time or system state will not produce the same output. The only defensible verification point is the moment of change. ASRO makes those changes independently checkable by the parties who depend on the system's governance claims.</p>
+          <h2>What ASRO does.</h2>
+          <p>ASRO adds an independent attestation layer between the operator and the parties who depend on the system's governance claims. It does not read private conversations or judge whether an AI answer is good. It verifies one thing: whether the system was operating under the rules it claimed to be operating under.</p>
+          <p>ASRO works through three components: a Host Meter Agent on the operator side, an Edge Meter Agent on the user side, and an independent ASRO Verifier that reconciles both. When governance state changes, ASRO creates a cryptographically signed, independently witnessable record of the change — at the moment it happens, not after the fact.</p>
           <p>ASRO is an evidence framework. It provides the technical record from which auditors, regulators, counsel, and partners can make their own determinations. It does not make those determinations itself.</p>
           <div class="scope-note">
-            <strong>Scope statement:</strong> ASRO provides the technical record from which downstream parties can make legal, regulatory, and compliance determinations. Whether that evidence satisfies specific statutory requirements is a determination made by qualified counsel and regulators — not by ASRO.
+            <strong>Plain-English value:</strong> ASRO does not judge whether an AI answer is "good." It verifies whether the system was operating under the rules it claimed to be operating under.
           </div>
         </div>
         <div>
-          <h2>What ASRO is not</h2>
+          <h2>What ASRO is not.</h2>
           <ul class="not-list">
             <li>A safety certification system</li>
             <li>A legal compliance guarantor</li>
@@ -657,6 +717,7 @@
             <li>A promise that the AI will never hallucinate or behave badly</li>
             <li>A replacement for legal counsel or sectoral regulation</li>
             <li>A claim about model output quality, accuracy, or harmlessness</li>
+            <li>A surveillance tool — it does not read conversations or access model internals</li>
           </ul>
           <p style="margin-top: 1.5rem; font-size: 0.9rem;">These boundaries are stated prominently because honest scope is what makes this framework credible. Overstating what a governance framework can guarantee undermines the very trust it is designed to support.</p>
         </div>
