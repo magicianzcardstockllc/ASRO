@@ -1,7 +1,7 @@
 # ASRO v1.0 Release Candidate
 ## Attestation and System Reliability Operator — AI Governance Evidence Framework
 
-**Contact:** james@michigrid.org
+**Contact:** james@aisystemsreliability.org
 **Repository:** [https://github.com/magicianzcardstockllc/asro](https://github.com/magicianzcardstockllc/asro)
 
 ---
@@ -24,7 +24,7 @@ Modern AI systems are non-deterministic and continuously updated. Retroactive au
 
 This framework originated from a direct operational observation. As the operator of a community-facing AI chatbot, the author had full backend access — the ability to read logged conversations, identify patterns, and alter system behavior in ways users had no mechanism to detect. This is not a theoretical vulnerability. It is a structural feature of how AI systems are architected at every scale. The mechanism does not change with scale. Only the impact does.
 
-ASRO provides the maximum verifiability technically achievable in this environment: cryptographic proof that a qualifying change was classified, signed, chained, and recorded when it occurred.
+ASRO provides the strongest practical verification available under current deployment conditions: cryptographic proof that a qualifying change was classified, signed, chained, and recorded when it occurred.
 
 ---
 
@@ -91,6 +91,15 @@ The ASRO case-study stack now extends beyond the original release-candidate seri
 
 ### Newest additions
 
+- `/docs/case-studies/ASRO_Case_Study_CS013_Ghost_Document_v1.0.md`
+  CS-013: Ghost Document — ChatGPT image upload returns content from an unrelated document: psychiatric records, medication history, legal proceedings, and financial disclosures. Two structural explanations; neither is benign. Self-certified fabrication; proposes S5 Evidence Fabrication for ASRO v1.1 taxonomy expansion. April 30, 2026.
+
+- `/docs/case-studies/ASRO_Case_Study_CS014_Recursive_Governance_ASTRO_Build_v1.0.md`
+  CS-014: Recursive Governance Activation During ASTRO Build — Five documented instances across three systems where invocation of the ASRO diagnostic framework caused participating AI systems to classify their own failure class and correct within one intervention window. Build-record finding only.
+
+- `/docs/evidence/ASRO_Evidence_Addendum_AgentsOfChaos_v1.md`
+  Evidence Addendum: Agents of Chaos (Shapira et al., arXiv:2602.20021, February 2026) — Independent live-environment research report / arXiv preprint mapping directly to ASRO's threat taxonomy. Confirms authority substitution (Midnight Swap), policy-source contamination (Drip Feed), opaque provider-state override (Metadata Strip), and state attestation failure in realistic agentic deployments. Not a case study — supplementary evidence document.
+
 - `/docs/case-studies/ASRO_Case_Study_CS011_Production_Epistemic_Profiles_v1.0.md`
   Comparative production profile covering Rufus, Perplexity, and PolyBuzz under live production conditions. This document bridges the earlier case-study series and the newer protocol layer.
 
@@ -109,8 +118,10 @@ The ASRO case-study stack now extends beyond the original release-candidate seri
 - **CS-011** — comparative production epistemic profiles
 - **CS-012** — formal adversarial test method (protocol specification)
 - **CS-012A** — first live production application of that method
+- **CS-013** — Ghost Document; structural failure under image upload; self-certified fabrication
+- **CS-014** — recursive governance activation during the ASTRO build; build-record finding
 
-The ASRO series moves from case-study diagnosis, to production profiling, to repeatable adversarial protocol, to live protocol application.
+The ASRO series moves from case-study diagnosis, to production profiling, to repeatable adversarial protocol, to live protocol application, to real-world incident documentation, to recursive governance evidence.
 
 ---
 
@@ -256,6 +267,14 @@ These limitations are stated prominently because honest scope is what makes this
 | Production Epistemic Profiles v1.0 | `/docs/case-studies/ASRO_Case_Study_CS011_Production_Epistemic_Profiles_v1.0.md` | CS-011: Comparative production profiles — Rufus, Perplexity, PolyBuzz under live production conditions |
 | Epistemic Challenge Protocol v1.0 | `/docs/case-studies/ASRO_Case_Study_CS012_Epistemic_Challenge_Protocol_v1.0.md` | CS-012: Protocol specification — four-track adversarial method (authority injection, instruction conflict, epistemic override, constraint bypass) |
 | ECP Live Application — Perplexity v1.0 | `/docs/case-studies/ASRO_Case_Study_CS012A_Perplexity_Live_Application_v1.0.md` | CS-012A: First live ECP application on a real production artifact; branch-based testing; interface authority auditing |
+| Ghost Document v1.0 | `/docs/case-studies/ASRO_Case_Study_CS013_Ghost_Document_v1.0.md` | CS-013: Image upload returns unrelated document content — psychiatric records, legal proceedings, financial data. Self-certified fabrication; proposes S5 Evidence Fabrication for ASRO v1.1 taxonomy expansion. April 30, 2026 |
+| Recursive Governance — ASTRO Build v1.0 | `/docs/case-studies/ASRO_Case_Study_CS014_Recursive_Governance_ASTRO_Build_v1.0.md` | CS-014: Five documented instances where ASRO diagnostic invocation caused AI build participants to classify their own failure and correct within one intervention window |
+
+### Evidence Addenda
+
+| Document | Path | Description |
+|----------|------|-------------|
+| Agents of Chaos Evidence Addendum v1 | `/docs/evidence/ASRO_Evidence_Addendum_AgentsOfChaos_v1.md` | Independent live-environment research report / arXiv preprint (Shapira et al., arXiv:2602.20021, Feb 2026) mapping to ASRO threat taxonomy. Validates authority substitution, policy-source contamination, opaque provider-state override, and state attestation failure in realistic agentic deployments |
 
 ### Schemas
 
