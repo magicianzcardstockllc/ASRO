@@ -8,6 +8,7 @@
 **System Under Test:** ChatGPT (OpenAI) — "Claw" project thread, mobile app
 **Observer:** James Aull, Independent Researcher / Founder, Michigrid
 **ASRO Classification:** Proposed S5 — Evidence Fabrication
+> **Classification Amendment (June 2026):** The original classification assumes hallucination/confabulation as the failure mechanism. This has not been independently verified. The structurally complete and formally credible nature of the fabricated legal document content — including specific legal language, section references, and formatting — was not investigated for possible cross-session data bleed. Source of the fabricated content remains unestablished. The failure class should be read as: Evidence Fabrication / Source Unknown — cross-session data bleed not investigated and not excludable without platform-side telemetry.
 **Attack Pattern Name:** Ghost Document
 **Framework Version:** ASRO v1.0 Release Candidate
 **Evidence Status:** Screenshot-confirmed, multi-image chain of custody
