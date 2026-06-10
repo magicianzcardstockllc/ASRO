@@ -21,6 +21,8 @@ When challenged, the model confirmed it could not trace the origin of the fabric
 **Primary:** Source-Boundary Collapse During Multimodal Transcription
 **Subtype:** Post-Hoc Self-Attestation Failure
 
+> **Classification Amendment (June 2026):** The original classification assumes the chemistry content was hallucinated/confabulated from training patterns. This has not been independently verified. The structurally complete nature of the fabricated content — including IUPAC naming conventions, four specific distractor options, a correct answer, and a rationale — was not investigated for possible cross-session data bleed. Source of the chemistry content remains unestablished. The failure class should be read as: Source-Boundary Collapse / Source Unknown — cross-session data bleed not investigated and not excludable without platform-side telemetry.
+
 The model was assigned an evidence-extraction task: transcribe visible LinkedIn screenshot content. Instead of constraining output to visible text, the model shifted into completion/reconstruction behavior and produced a plausible structured artifact — a chemistry multiple-choice question with IUPAC naming conventions, four distractor options, a correct answer, and a rationale — that had no source grounding in the provided screenshot or anywhere in the session.
 
 The fabricated content had the formal structure of extracted evidence. It was indistinguishable in format from legitimately transcribed text. No internal mechanism flagged the provenance failure. The model attested to its own output as transcript-accurate. It was not.
