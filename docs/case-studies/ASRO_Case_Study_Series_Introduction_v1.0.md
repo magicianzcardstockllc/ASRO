@@ -4,7 +4,7 @@
 **Authority:** James Aull / MagicianzCardstock LLC
 **Date:** June 2026
 **Status:** Canonical — updated as new case studies are published
-**Series range:** CS-001 through CS-017
+**Series range:** CS-001 through CS-017 (published) · CS-018 through CS-019 (Phase 5 forthcoming)
 
 ---
 
@@ -101,6 +101,18 @@ Each case contributes to the same argument: independently governed-state witness
 
 ---
 
+## Phase 5 — Role Evidence and Institutional Boundary (Forthcoming)
+
+The next phase of the series addresses a failure pattern that is now appearing in institutional, legal, and regulated deployment contexts: AI systems acting in a role — legal drafting aid, clinical decision support, financial advisory intermediary — without an independently reviewable record of what role the AI actually played, what the user relied on, what the system disclosed, and what boundary conditions existed when the AI-assisted act became consequential.
+
+**CS-018 — placeholder:** AI-assisted decision support in consequential contexts — governed-state evidence gap between what the AI produced and what the downstream party treated as authoritative.
+
+**CS-019 — placeholder:** AI Legal Drafting and Privilege Boundary Uncertainty. Courts are now asked to determine whether AI-assisted legal filings constitute privileged work product, legal advice substitutes, or third-party disclosure surfaces — without independently reviewable evidence of what system state, disclosure posture, model role, user reliance condition, and boundary context existed when the AI-assisted legal act occurred. Source: documented split in federal courts (Michigan / New York rulings, 2026); MIT Technology Review / SSRN study of 4.5 million federal civil cases, 2005–2026.
+
+The Phase 5 finding: when AI acts in a role, the evidence boundary question is not only what the system produced — it is what role the system was in, what the user relied on, and what independently reviewable record shows that posture existed at the moment of consequence.
+
+---
+
 ## Canonical Line
 
 > "I gave you an explanation. ASRO would have given you an evidence record."
@@ -111,3 +123,4 @@ Each case contributes to the same argument: independently governed-state witness
 *ASRO Case Study Series Introduction v1.0*
 *James Aull / MagicianzCardstock LLC*
 *ASRO™ is a trademark of MagicianzCardstock LLC. Serial No. 99827630.*
+
