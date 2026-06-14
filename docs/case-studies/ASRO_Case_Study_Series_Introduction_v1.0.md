@@ -4,7 +4,7 @@
 **Authority:** James Aull / MagicianzCardstock LLC
 **Date:** June 2026
 **Status:** Canonical — updated as new case studies are published
-**Series range:** CS-001 through CS-017 (published) · CS-018 through CS-021 (Phase 5 forthcoming)
+**Series range:** CS-001 through CS-021 (published) · Phase 5: CS-018 through CS-021
 
 ---
 
@@ -101,19 +101,24 @@ Each case contributes to the same argument: independently governed-state witness
 
 ---
 
-## Phase 5 — Role Evidence and Institutional Boundary (Forthcoming)
+## Phase 5 — Role Evidence and Institutional Boundary
+### CS-018 through CS-021
 
-The next phase of the series addresses a failure pattern that is now appearing in institutional, legal, and regulated deployment contexts: AI systems acting in a role — legal drafting aid, clinical decision support, financial advisory intermediary — without an independently reviewable record of what role the AI actually played, what the user relied on, what the system disclosed, and what boundary conditions existed when the AI-assisted act became consequential.
+Phase 5 addresses a failure pattern appearing in institutional, legal, clinical, and regulated deployment contexts: AI systems acting in a role — legal drafting aid, clinical decision support, financial advisory intermediary — without an independently reviewable record of what role the AI actually played, what the user relied on, what the system disclosed, and what boundary conditions existed when the AI-assisted act became consequential.
 
-**CS-018 — placeholder:** AI-assisted decision support in consequential contexts — governed-state evidence gap between what the AI produced and what the downstream party treated as authoritative.
+**CS-018 — AI-Assisted Decision Support and Reliance Boundary Failure**
+When an AI system produces output that influences a consequential human or institutional decision, the record often cannot prove what role the AI actually occupied. Healthcare-anchored, with financial, legal, and public-sector analogues. Sources include FDA CDS Software Guidance 2026, HHS Section 1557, Penda Health real-world study (39,849 patient visits), Medical Protection Society liability warning, and Zeiser's attributability-gap paper. Canonical finding: "A system can be described as 'decision support' in policy while functioning as practical authority in workflow."
 
-**CS-019 — placeholder:** AI Legal Drafting and Privilege Boundary Uncertainty. Courts are now asked to determine whether AI-assisted legal filings constitute privileged work product, legal advice substitutes, or third-party disclosure surfaces — without independently reviewable evidence of what system state, disclosure posture, model role, user reliance condition, and boundary context existed when the AI-assisted legal act occurred. Source: documented split in federal courts (Michigan / New York rulings, 2026); MIT Technology Review / SSRN study of 4.5 million federal civil cases, 2005–2026.
+**CS-019 — AI Legal Drafting and Privilege Boundary Uncertainty**
+When AI helps draft legal filings or shape litigation strategy, courts must determine what role the AI played — but have no independent evidence of the AI's role, the user's reliance, the disclosure posture, or the confidentiality boundary. Federal courts reached opposite conclusions on the same day in February 2026 (Michigan: ChatGPT outputs are work product; New York: Claude outputs are not privileged). Sources include MIT Technology Review / SSRN study of 4.5 million federal civil cases 2005–2026 and three named 2026 court rulings.
 
-**CS-020 — placeholder:** Model-State Transparency Failure. AI systems deployed in consequential contexts — clinical, legal, financial, regulatory — represent a specific model version, capability set, and safety configuration to users and operators. When that declared state is not independently verifiable, the gap between what the system represents itself to be and what it actually is at inference time becomes an evidence boundary problem. Neither the user nor the downstream reviewer can confirm from inside the session whether the model state, fine-tuning, system prompt, or configuration active at inference matched what was declared.
+**CS-020 — Model-State Transparency Failure**
+When a model is silently updated, safety-filtered, fine-tuned, or rerouted, the user and any downstream reviewer cannot verify which model state produced a specific consequential output. Structural pattern case anchored in ASRO's founding observation: as a backend operator, an operator can alter AI system behavior in ways users have no mechanism to detect. Canonical finding: "The system's explanation of its output may accurately describe the wrong system."
 
-**CS-021 — placeholder:** Silent Routing and Fallback Behavior. AI deployment architectures increasingly route requests across multiple models, providers, or runtime configurations — sometimes silently, sometimes under fallback conditions the user is not informed of. When a consequential output is produced under a fallback model, a degraded configuration, or a silently routed provider, no independently reviewable record exists showing which system state was actually active when the output was generated. The system's own explanation of its output may accurately describe the wrong system.
+**CS-021 — Silent Routing and Fallback Behavior**
+AI deployment architectures route requests across multiple models, providers, or configurations — sometimes transparently, often silently. When a consequential output is produced under fallback or silent routing conditions, no independently reviewable record exists showing which system state was actually active. Explicitly connects to CS-017: when routing or fallback introduces anomalous content, the user and reviewer cannot determine from inside the session which system was responsible.
 
-The Phase 5 finding: when AI acts in a role, is silently routed, or represents a model state that cannot be independently verified, the evidence boundary question expands beyond what the system produced — to what role it was in, what the user relied on, what system state was actually active, and what independently reviewable record shows that posture existed at the moment of consequence.
+**The Phase 5 finding:** When AI acts in a role, is silently routed, or represents a model state that cannot be independently verified, the evidence boundary question expands beyond what the system produced — to what role it was in, what the user relied on, what system state was actually active, and what independently reviewable record shows that posture existed at the moment of consequence.
 
 ---
 
