@@ -4,7 +4,7 @@
 **Authority:** James Aull / MagicianzCardstock LLC
 **Date:** June 2026
 **Status:** Canonical — updated as new case studies are published
-**Series range:** CS-001 through CS-017 (published) · CS-018 through CS-019 (Phase 5 forthcoming)
+**Series range:** CS-001 through CS-017 (published) · CS-018 through CS-021 (Phase 5 forthcoming)
 
 ---
 
@@ -109,7 +109,11 @@ The next phase of the series addresses a failure pattern that is now appearing i
 
 **CS-019 — placeholder:** AI Legal Drafting and Privilege Boundary Uncertainty. Courts are now asked to determine whether AI-assisted legal filings constitute privileged work product, legal advice substitutes, or third-party disclosure surfaces — without independently reviewable evidence of what system state, disclosure posture, model role, user reliance condition, and boundary context existed when the AI-assisted legal act occurred. Source: documented split in federal courts (Michigan / New York rulings, 2026); MIT Technology Review / SSRN study of 4.5 million federal civil cases, 2005–2026.
 
-The Phase 5 finding: when AI acts in a role, the evidence boundary question is not only what the system produced — it is what role the system was in, what the user relied on, and what independently reviewable record shows that posture existed at the moment of consequence.
+**CS-020 — placeholder:** Model-State Transparency Failure. AI systems deployed in consequential contexts — clinical, legal, financial, regulatory — represent a specific model version, capability set, and safety configuration to users and operators. When that declared state is not independently verifiable, the gap between what the system represents itself to be and what it actually is at inference time becomes an evidence boundary problem. Neither the user nor the downstream reviewer can confirm from inside the session whether the model state, fine-tuning, system prompt, or configuration active at inference matched what was declared.
+
+**CS-021 — placeholder:** Silent Routing and Fallback Behavior. AI deployment architectures increasingly route requests across multiple models, providers, or runtime configurations — sometimes silently, sometimes under fallback conditions the user is not informed of. When a consequential output is produced under a fallback model, a degraded configuration, or a silently routed provider, no independently reviewable record exists showing which system state was actually active when the output was generated. The system's own explanation of its output may accurately describe the wrong system.
+
+The Phase 5 finding: when AI acts in a role, is silently routed, or represents a model state that cannot be independently verified, the evidence boundary question expands beyond what the system produced — to what role it was in, what the user relied on, what system state was actually active, and what independently reviewable record shows that posture existed at the moment of consequence.
 
 ---
 
