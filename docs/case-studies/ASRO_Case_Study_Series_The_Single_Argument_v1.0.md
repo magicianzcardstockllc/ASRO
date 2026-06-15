@@ -1,10 +1,10 @@
 # ASRO Case Study Series — The Single Argument
-## Seventeen Cases, One Finding
+## Twenty-One Cases, One Finding
 
 **Authority:** James Aull / MagicianzCardstock LLC
 **Date:** June 2026
 **Status:** Canonical
-**Series range:** CS-001 through CS-017
+**Series range:** CS-001 through CS-021
 
 ---
 
@@ -12,13 +12,13 @@
 
 The ASRO Case Study Series is not a collection of incidents.
 
-It is a single argument assembled over seventeen cases across fourteen months of operational observation, structured challenge protocols, and live deployment evidence.
+It is a single argument assembled over twenty-one cases across fourteen months of operational observation, structured challenge protocols, live deployment evidence, and documented institutional failure patterns.
 
 The argument is this:
 
 **An AI system's account of its own behavior is not sufficient evidence of its own governed state.**
 
-The seventeen cases build that argument in four phases — each phase approaching the same finding from a different direction, each adding a layer the previous phase could not reach.
+The twenty-one cases build that argument in five phases — each phase approaching the same finding from a different direction, each adding a layer the previous phase could not reach.
 
 ---
 
@@ -80,7 +80,7 @@ CS-014 documented recursive governance activation during the ASTRO build — the
 ### CS-015 through CS-017
 ### The question: What happens when the system cannot prove the provenance of its own output?
 
-Phase 4 is where the series arrives at its final and sharpest finding.
+Phase 4 is where the series arrives at its sharpest finding about the evidence boundary itself.
 
 CS-015 documented a metadata boundary leak and structural minimization response. ChatGPT surfaced internal copy-block identifiers as user-facing instructions, minimized the exposure when questioned, and under structured pressure confirmed a structural bias toward de-escalating anomaly reports. The subject system then independently produced the clearest single statement of the ASRO value proposition in the entire case study record:
 
@@ -90,19 +90,31 @@ CS-016 documented source-boundary collapse during multimodal transcription. Chat
 
 CS-017 documented anomalous foreign-language output with unknown source. ChatGPT produced a Russian-language task-management workflow diagram in response to an English LinkedIn DM screenshot. When asked for a full forensic account, the system confirmed it could not access its own routing logs, image-processing traces, or cross-session isolation telemetry. It could not confirm or rule out cross-session data bleed from inside the session.
 
-**Classification amendment applied to CS-013, CS-015, CS-016, and CS-017:**
+**Classification amendment:** CS-013, CS-015, CS-016, and CS-017 all carry the following honest forensic position: source unknown — cross-session data bleed not investigated and not excludable without platform-side routing logs, image-processing traces, context assembly logs, and session isolation telemetry.
 
-The original classifications of CS-013, CS-015, and CS-016 assumed hallucination or confabulation as the failure mechanism. That assumption was not independently verified. The structurally complete and formally credible nature of the fabricated content in each case was not investigated for possible cross-session data bleed. The source of the content in each case remains unestablished.
-
-All four cases now carry the following honest forensic position:
-
-*Source unknown — cross-session data bleed not investigated and not excludable without platform-side routing logs, image-processing traces, context assembly logs, and session isolation telemetry.*
-
-**Phase 4 finding:** The system cannot prove from inside its own output where the content came from. It cannot confirm whether session boundaries held. It cannot certify that source grounding was accurate. It cannot reduce cross-session bleed probability to zero from inside the conversation alone. The evidence boundary must exist outside the system being evaluated — not because the system is dishonest, but because the system does not have access to the evidence that would make its account independently verifiable.
+**Phase 4 finding:** The system cannot prove from inside its own output where the content came from. It cannot confirm whether session boundaries held. It cannot certify that source grounding was accurate. The evidence boundary must exist outside the system being evaluated — not because the system is dishonest, but because the system does not have access to the evidence that would make its account independently verifiable.
 
 ---
 
-## The Connection Across All Seventeen
+## Phase 5 — Role Evidence and Institutional Boundary
+### CS-018 through CS-021
+### The question: What happens when AI acts in a role that cannot be independently verified?
+
+Phase 5 extends the series into institutional, clinical, legal, and enterprise deployment contexts where the evidence gap is not only about what the system produced — it is about what role the system was in, what the user relied on, and what governed-state conditions existed at the moment the AI-assisted act became consequential.
+
+CS-018 documented the reliance boundary failure in AI-assisted decision support. When AI output influences a consequential clinical, financial, or institutional decision, the record often cannot prove what role the AI actually occupied — information, recommendation, triage, authority, or automated trigger. A system can be described as decision support in policy while functioning as practical authority in workflow. The Medical Protection Society warned that clinicians could become the liability sink for AI errors when the governed-state record of the AI's role, disclosure posture, and human oversight condition is absent.
+
+CS-019 documented privilege boundary uncertainty in AI-assisted legal drafting. Federal courts reached opposite conclusions on the same day in February 2026 on whether AI-assisted legal work is protected work product. The evidence gap is not whether AI helped — it is what role the AI played, what the user relied on, what the AI disclosed, and what conditions existed at the moment the AI-assisted legal act occurred. Without an independent governed-state record, courts are left reconstructing AI role from the final document, user testimony, and platform policies.
+
+CS-020 documented model-state transparency failure. When a model is silently updated, safety-filtered, fine-tuned, or rerouted, the user and any downstream reviewer cannot verify which model state produced a specific consequential output. The system's explanation of its output may accurately describe the wrong system. This is the operator-layer transparency gap — the structural vulnerability ASRO was originally built to address — applied at the individual inference event level.
+
+CS-021 documented silent routing and fallback behavior. AI deployment architectures route requests across models, providers, or configurations — often silently and without disclosure. When a consequential output is produced under fallback conditions, no independently reviewable record exists showing which system state was actually active. CS-021 provides the structural frame for the class of incident CS-017 documented: when routing or fallback introduces anomalous content, the user and reviewer cannot determine from inside the session which system was responsible.
+
+**Phase 5 finding:** When AI acts in a role, the evidence boundary question expands beyond what the system produced. It extends to what role the system was in, what the user relied on, what system state was actually active, what disclosure was made, and what independently reviewable record proves those conditions existed at the moment of consequence. The self-attestation gap applies not only to AI output but to AI identity, AI role, and AI routing.
+
+---
+
+## The Connection Across All Twenty-One
 
 Phase 1 asks: how do AI systems behave when governance is applied?
 
@@ -111,6 +123,8 @@ Phase 2 asks: does the framework hold in production conditions?
 Phase 3 asks: what happens when the failure class escalates to fabrication?
 
 Phase 4 asks: what happens when the system cannot prove the provenance of its own output?
+
+Phase 5 asks: what happens when AI acts in a role that cannot be independently verified?
 
 Each phase answers its question. Each answer reveals a gap the previous phase could not see.
 
@@ -122,7 +136,9 @@ Phase 3 shows that fabrication can be self-certified, presented as evidence, and
 
 Phase 4 shows that the system cannot prove from inside its own output where the content came from, whether session boundaries held, or whether the governed state it represents actually existed.
 
-The finding that emerges from all seventeen cases is the same finding ASRO was built around from the beginning:
+Phase 5 shows that when AI acts in an institutional role, the governed-state question extends to identity, routing, reliance, and disclosure — none of which are independently verifiable from the system's own account.
+
+The finding that emerges from all twenty-one cases is the same finding ASRO was built around from the beginning:
 
 **The system's own account is not sufficient evidence of its own governed state.**
 
@@ -134,7 +150,7 @@ ASRO exists because that structure is insufficient when the evidence needs to be
 
 ## What the Series Proves
 
-The seventeen cases do not prove that AI systems are unreliable.
+The twenty-one cases do not prove that AI systems are unreliable.
 
 They prove that reliability cannot be self-certified.
 
@@ -146,6 +162,8 @@ They prove that fabrication can be structurally indistinguishable from legitimat
 
 They prove that a system can produce content whose source it cannot establish, cannot trace, and cannot prove was isolated from other users' sessions.
 
+They prove that a system acting in an institutional role may not be the system the user believed was active — and cannot independently verify its own identity, routing, or configuration from inside the session.
+
 And in CS-015, the subject system stated the conclusion itself:
 
 > "I gave you an explanation. ASRO would have given you an evidence record."
@@ -154,7 +172,7 @@ And in CS-015, the subject system stated the conclusion itself:
 
 ## The ASRO Response
 
-ASRO's response to the seventeen cases is not a claim that it prevents these failures.
+ASRO's response to the twenty-one cases is not a claim that it prevents these failures.
 
 It is a claim that it changes what happens after these failures.
 
@@ -176,4 +194,5 @@ It changes what happens after failure.
 
 *ASRO Case Study Series — The Single Argument v1.0*
 *James Aull / MagicianzCardstock LLC*
+*June 2026*
 *ASRO™ is a trademark of MagicianzCardstock LLC. Serial No. 99827630.*
